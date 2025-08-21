@@ -1,0 +1,79 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Patient {
+  id            Int      @id @default(autoincrement())
+  patientId     String   @unique
+  username      String   @unique
+  password      String
+  email         String   @unique
+  fullName      String?
+  birthDate     DateTime?
+  phone         String?
+  address       String?
+  chronicDisease String?
+  drugAllergy   String?
+  foodAllergy   String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  appointments  Appointment[]
+  treatmentRecords TreatmentRecord[]
+}
+
+model Treatment {
+  id            Int      @id @default(autoincrement())
+  treatmentId   String   @unique
+  name          String
+  description   String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  treatmentRecords TreatmentRecord[]
+  appointments  Appointment[]
+}
+
+model TreatmentRecord {
+  id            Int      @id @default(autoincrement())
+  recordId      String   @unique
+  patientId     Int
+  treatmentId   Int
+  date          DateTime
+  notes         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  patient       Patient   @relation(fields: [patientId], references: [id])
+  treatment     Treatment @relation(fields: [treatmentId], references: [id])
+}
+
+model Staff {
+  id            Int      @id @default(autoincrement())
+  staffId       String   @unique
+  username      String   @unique
+  password      String
+  fullName      String
+  role          String
+  phone         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  appointments  Appointment[]
+}
+
+model Appointment {
+  id            Int      @id @default(autoincrement())
+  appointId     String   @unique
+  patientId     Int
+  staffId       Int
+  treatmentId   Int?
+  dateTime      DateTime
+  status        String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  patient       Patient   @relation(fields: [patientId], references: [id], name: "appointment_patient")
+  staff         Staff    @relation(fields: [staffId], references: [id], name: "appointment_staff")
+  treatment     Treatment? @relation(fields: [treatmentId], references: [id], name: "appointment_treatment")
+}
