@@ -2,17 +2,19 @@
     "name": "dental-clinic-backend",
     "version": "1.0.0",
     "scripts": {
-      "start": "node src/server.js",
-      "dev": "nodemon src/server.js",
-      "migrate": "npx prisma migrate dev"
+        "start": "node src/server.js",
+        "dev": "nodemon src/server.js",
+        "migrate": "npx prisma migrate dev"
     },
     "dependencies": {
-      "@prisma/client": "^5.0.0",
-      "cors": "^2.8.5",
-      "express": "^4.18.2"
+        "@prisma/client": "^6.15.0",
+        "bcrypt": "^6.0.0",
+        "bcryptjs": "^3.0.2",
+        "cors": "^2.8.5",
+        "express": "^4.21.2"
     },
     "devDependencies": {
-      "nodemon": "^2.0.22",
-      "prisma": "^5.0.0"
+        "nodemon": "^2.0.22",
+        "prisma": "^6.14.0"
     }
-  }
+}
